@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Tomato Monitor</title>
+  <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
+  <script src="/static/jsmpeg.min.js"></script>
+</head>
+<body>
+  <h2>番茄状态实时监测</h2>
+  <canvas id="video-canvas" width="640" height="480"></canvas>
+  <div id="info"></div>
+
+  <script>
+    const canvas = document.getElementById("video-canvas");
+    new JSMpeg.Player('ws://your.jetson.ip:8082', { canvas: canvas });
+
+    const socket = io();
+    socket.on('tomato_data', function(data) {
+      document.getElementById("info").innerText = "检测信息：" + data;
+    });
+  </script>
+</body>
+</html>
